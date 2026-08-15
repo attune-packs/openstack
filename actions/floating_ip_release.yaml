@@ -1,0 +1,23 @@
+ref: openstack.floating_ip_release
+label: "Release Floating IP"
+description: "Release a floating IP by ID with confirmation that includes any attached port ID"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: openstack_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  profile_key: {type: string, default: openstack.profile, required: true}
+  cloud: {type: string, required: true}
+  region: {type: string, required: true}
+  interface: {type: string, enum: [public, internal, admin], required: true}
+  project_id: {type: string, required: true}
+  floating_ip_id: {type: string, required: true}
+  confirm: {type: string, required: true, description: "RELEASE:<floating_ip_id> or RELEASE:<floating_ip_id>:<attached_port_id>"}
+  connect_timeout: {type: integer, minimum: 1, maximum: 30, default: 10}
+  read_timeout: {type: integer, minimum: 1, maximum: 300, default: 60}
+output: {operation: {type: string}, data: {type: any}, scope: {type: object}}
+tags: [openstack, network, floating-ip, destructive]

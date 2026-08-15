@@ -1,0 +1,15 @@
+This product includes a substantially modified adaptation of the StackStorm
+Exchange OpenStack pack, version 1.0.1.
+
+Original authorship is attributed to the StackStorm Engineering Team, with Joe
+Topjian listed as an upstream contributor.
+
+Source: https://github.com/StackStorm-Exchange/stackstorm-openstack
+Revision: 719b93fe95c091d3e75364af66172b6cae68a370
+Revision date: 2021-12-19
+License: Apache License 2.0
+
+The implementation, action selection, authentication model, SDK, safety
+contracts, tests, documentation, and Attune component metadata have been
+substantially modified. The upstream repository did not contain a NOTICE file
+at the verified revision.

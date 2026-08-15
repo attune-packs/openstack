@@ -1,0 +1,34 @@
+ref: openstack.security_group_rule_manage
+label: "Manage Security Group Rules"
+description: "List, get, create, or explicitly delete immutable security group rules by ID"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: openstack_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  profile_key: {type: string, default: openstack.profile, required: true}
+  cloud: {type: string, required: true}
+  region: {type: string, required: true}
+  interface: {type: string, enum: [public, internal, admin], required: true}
+  project_id: {type: string, required: true}
+  verb: {type: string, enum: [list, get, create, delete], required: true}
+  resource_id: {type: string}
+  security_group_id: {type: string, description: "Required by create; optional list filter"}
+  direction: {type: string, enum: [ingress, egress], default: ingress}
+  ethertype: {type: string, enum: [IPv4, IPv6], default: IPv4}
+  protocol: {type: string}
+  port_range_min: {type: integer, minimum: 0, maximum: 65535}
+  port_range_max: {type: integer, minimum: 0, maximum: 65535}
+  remote_ip_prefix: {type: string}
+  remote_group_id: {type: string}
+  description: {type: string}
+  confirm: {type: string, description: "For delete, must equal DELETE:<resource_id>"}
+  max_items: {type: integer, minimum: 1, maximum: 1000, default: 100}
+  connect_timeout: {type: integer, minimum: 1, maximum: 30, default: 10}
+  read_timeout: {type: integer, minimum: 1, maximum: 300, default: 60}
+output: {operation: {type: string}, data: {type: any}, scope: {type: object}}
+tags: [openstack, network, security, rule]

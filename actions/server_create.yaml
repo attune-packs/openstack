@@ -1,0 +1,28 @@
+ref: openstack.server_create
+label: "Create Server"
+description: "Create one server from explicit image, flavor, and network or port IDs without waiting"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: openstack_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  profile_key: {type: string, default: openstack.profile, required: true}
+  cloud: {type: string, required: true}
+  region: {type: string, required: true}
+  interface: {type: string, enum: [public, internal, admin], required: true}
+  project_id: {type: string, required: true}
+  name: {type: string, required: true}
+  image_id: {type: string, required: true}
+  flavor_id: {type: string, required: true}
+  network_ids: {type: array, items: {type: string}, default: [], maxItems: 8}
+  port_ids: {type: array, items: {type: string}, default: [], maxItems: 8}
+  key_name: {type: string, description: "Existing Nova keypair name; no key material is returned"}
+  availability_zone: {type: string}
+  connect_timeout: {type: integer, minimum: 1, maximum: 30, default: 10}
+  read_timeout: {type: integer, minimum: 1, maximum: 300, default: 60}
+output: {operation: {type: string}, data: {type: any}, scope: {type: object}}
+tags: [openstack, compute, create]

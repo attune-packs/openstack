@@ -1,0 +1,32 @@
+ref: openstack.port_manage
+label: "Manage Ports"
+description: "List, get, create, safely update, or explicitly delete project ports"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: openstack_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  profile_key: {type: string, default: openstack.profile, required: true}
+  cloud: {type: string, required: true}
+  region: {type: string, required: true}
+  interface: {type: string, enum: [public, internal, admin], required: true}
+  project_id: {type: string, required: true}
+  verb: {type: string, enum: [list, get, create, update, delete], required: true}
+  resource_id: {type: string}
+  network_id: {type: string, description: "Required by create; immutable thereafter"}
+  name: {type: string}
+  description: {type: string}
+  admin_state_up: {type: boolean}
+  fixed_ips: {type: array, items: {type: object}, maxItems: 16, description: "Entries require subnet_id and optional ip_address"}
+  security_group_ids: {type: array, items: {type: string}, maxItems: 16}
+  port_security_enabled: {type: boolean}
+  confirm: {type: string, description: "For delete, must equal DELETE:<resource_id>"}
+  max_items: {type: integer, minimum: 1, maximum: 1000, default: 100}
+  connect_timeout: {type: integer, minimum: 1, maximum: 30, default: 10}
+  read_timeout: {type: integer, minimum: 1, maximum: 300, default: 60}
+output: {operation: {type: string}, data: {type: any}, scope: {type: object}}
+tags: [openstack, network, port, crud]

@@ -1,0 +1,25 @@
+ref: openstack.server_wait
+label: "Wait for Server Status"
+description: "Poll one server for a desired status with bounded interval and total wait"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: openstack_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  profile_key: {type: string, default: openstack.profile, required: true}
+  cloud: {type: string, required: true}
+  region: {type: string, required: true}
+  interface: {type: string, enum: [public, internal, admin], required: true}
+  project_id: {type: string, required: true}
+  server_id: {type: string, required: true}
+  status: {type: string, default: ACTIVE}
+  poll_interval: {type: integer, minimum: 1, maximum: 60, default: 5}
+  wait_timeout: {type: integer, minimum: 1, maximum: 1800, default: 300}
+  connect_timeout: {type: integer, minimum: 1, maximum: 30, default: 10}
+  read_timeout: {type: integer, minimum: 1, maximum: 300, default: 60}
+output: {operation: {type: string}, data: {type: any}, scope: {type: object}}
+tags: [openstack, compute, wait, read]

@@ -1,0 +1,27 @@
+ref: openstack.image_upload
+label: "Upload Image Artifact"
+description: "Upload one confined worker artifact as a private or shared Glance image"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: openstack_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  profile_key: {type: string, default: openstack.profile, required: true}
+  cloud: {type: string, required: true}
+  region: {type: string, required: true}
+  interface: {type: string, enum: [public, internal, admin], required: true}
+  project_id: {type: string, required: true}
+  name: {type: string, required: true}
+  artifact_path: {type: string, required: true, description: "Relative path beneath profile artifact_root"}
+  disk_format: {type: string, enum: [raw, qcow2, vhd, vhdx, vmdk, vdi, iso, aki, ari, ami], required: true}
+  container_format: {type: string, enum: [bare, ovf, ova, docker, aki, ari, ami], default: bare}
+  visibility: {type: string, enum: [private, shared], default: private}
+  max_bytes: {type: integer, minimum: 1, description: "Must not exceed profile max_artifact_bytes"}
+  connect_timeout: {type: integer, minimum: 1, maximum: 30, default: 10}
+  read_timeout: {type: integer, minimum: 1, maximum: 300, default: 300}
+output: {operation: {type: string}, data: {type: any}, scope: {type: object}}
+tags: [openstack, image, artifact, create]

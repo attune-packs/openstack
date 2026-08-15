@@ -1,0 +1,38 @@
+ref: openstack
+label: "OpenStack"
+description: "Scoped OpenStack SDK actions with Attune Key-backed clouds.yaml profiles"
+version: "0.1.0"
+author: "Attune; adapted from StackStorm Engineering Team and StackStorm Exchange contributors"
+email: "support@attune.systems"
+system: false
+enabled: true
+
+conf_schema: {}
+config: {}
+
+meta:
+  category: integration
+  documentation_url: "https://docs.openstack.org/openstacksdk/latest/"
+  repository_url: "https://github.com/attune-packs/openstack"
+  source_revision: "719b93fe95c091d3e75364af66172b6cae68a370"
+  source_version: "1.0.1"
+  sdk_baseline: "4.18.0"
+  license: "Apache-2.0"
+
+tags: [openstack, compute, network, storage, heat, integration]
+runtime_deps: [python]
+dependencies: []
+
+testing:
+  enabled: true
+  discovery:
+    method: directory
+    path: tests
+  runners:
+    python:
+      type: unittest
+      entry_point: tests/test_pack.py
+      timeout: 120
+      result_format: simple
+  min_pass_rate: 1.0
+  on_failure: block
