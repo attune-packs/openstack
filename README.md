@@ -11,12 +11,14 @@ ported. See [SOURCE.md](SOURCE.md) for the source and API baseline.
 - Python 3.10 or newer on the selected Attune worker.
 - `openstacksdk>=4.18.0,<5`, installed from `requirements.txt`.
 - Network access to the selected OpenStack service catalog endpoints.
-- A pack-owned encrypted Attune Key, normally `openstack.profile`.
+- A pack-owned encrypted Attune Key, normally `pack.openstack.profile`.
 - Least-privilege OpenStack roles and sufficient service quotas.
 - A private worker artifact directory for image and object transfer actions.
 
 ## Profile and Scope
 
+Create the Key with local ref `profile`, owner type `pack`, and
+`owner_pack_ref` `openstack`. Its canonical ref is `pack.openstack.profile`.
 The Key contains a named cloud and one current `clouds.yaml`-style cloud
 mapping. Host `clouds.yaml`, `secure.yaml`, and `OS_*` environment variables
 are deliberately ignored. This avoids ambient worker credentials and region or

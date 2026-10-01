@@ -85,7 +85,7 @@ class MetadataTests(unittest.TestCase):
                 for field, value in expected.items():
                     self.assertRegex(text, rf"(?m)^{field}: {value}$")
                 self.assertIn("default_execution_permission_set_refs: [standard]", text)
-                self.assertRegex(text, r"profile_key: \{[^\n]*default: openstack\.profile")
+                self.assertRegex(text, r"profile_key: \{[^\n]*default: pack\.openstack\.profile")
                 for field in ("cloud", "region", "interface", "project_id"):
                     self.assertRegex(text, rf"(?m)^  {field}: \{{[^\n]*required: true")
                 for field in ("operation", "data", "scope"):
@@ -451,10 +451,13 @@ class KeyAndEntryPointTests(unittest.TestCase):
             "attune.api_client.api.secrets": fake_secrets,
         }
         with mock.patch.dict(sys.modules, modules):
-            self.assertEqual("prod", client._fetch_key("openstack.profile")["cloud"])
+            self.assertEqual("prod", client._fetch_key("pack.openstack.profile")["cloud"])
+            fake_secrets.get_key.sync_detailed.assert_called_once_with(
+                "pack.openstack.profile", client=fake_attune.context.client
+            )
             fake_secrets.get_key.sync_detailed.side_effect = RuntimeError("TOP-SECRET")
             with self.assertRaises(client.OpenStackPackError) as caught:
-                client._fetch_key("openstack.profile")
+                client._fetch_key("pack.openstack.profile")
             self.assertNotIn("TOP-SECRET", str(caught.exception))
 
     def test_entry_point_never_echoes_input_or_unknown_exception(self):

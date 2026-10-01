@@ -10,7 +10,7 @@ parameter_format: json
 output_format: json
 default_execution_permission_set_refs: [standard]
 parameters:
-  profile_key: {type: string, default: openstack.profile, required: true, description: "Pack-owned encrypted OpenStack profile Key ref"}
+  profile_key: {type: string, default: pack.openstack.profile, required: true, description: "Pack-owned encrypted OpenStack profile Key ref"}
   cloud: {type: string, required: true, description: "Expected named cloud in the profile"}
   region: {type: string, required: true, description: "Expected profile region_name"}
   interface: {type: string, enum: [public, internal, admin], required: true, description: "Expected endpoint interface"}

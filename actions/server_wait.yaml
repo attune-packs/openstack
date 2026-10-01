@@ -10,7 +10,7 @@ parameter_format: json
 output_format: json
 default_execution_permission_set_refs: [standard]
 parameters:
-  profile_key: {type: string, default: openstack.profile, required: true}
+  profile_key: {type: string, default: pack.openstack.profile, required: true}
   cloud: {type: string, required: true}
   region: {type: string, required: true}
   interface: {type: string, enum: [public, internal, admin], required: true}

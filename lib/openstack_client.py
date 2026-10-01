@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
-DEFAULT_PROFILE_KEY = "openstack.profile"
+DEFAULT_PROFILE_KEY = "pack.openstack.profile"
 MAX_OUTPUT_BYTES = 8 * 1024 * 1024
 MAX_TEMPLATE_BYTES = 1024 * 1024
 MAX_HEAT_RESOURCES = 100
@@ -54,7 +54,7 @@ def _fetch_key(key_ref: str) -> dict[str, Any]:
         import attune
         from attune.api_client.api.secrets import get_key
 
-        response = get_key.sync_detailed(client=attune.context.client, key_ref=key_ref)
+        response = get_key.sync_detailed(key_ref, client=attune.context.client)
     # Attune client exceptions are not stable across releases; redact all of them.
     except Exception as exc:  # noqa: BLE001
         raise OpenStackPackError(f"could not read OpenStack profile Key ({type(exc).__name__})") from None
